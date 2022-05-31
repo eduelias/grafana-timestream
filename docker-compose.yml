@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  grafana:
+    image: grafana/grafana:7.5.4
+    environment:
+      - AWS_PROFILE=hbogo-/user-developer
+      - GF_INSTALL_PLUGINS=grafana-timestream-datasource
+      - GF_SECURITY_ADMIN_PASSWORD=123
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    volumes:
+      - $HOME/.aws/credentials:/usr/share/grafana/.aws/credentials:ro
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:
